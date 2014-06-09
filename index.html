@@ -1,38 +1,118 @@
+<!doctype html>
 <html>
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>jQuery Mobile: Theme Download</title>
+	<title>Rushikesh: A Hangman Game</title>
 	<link rel="stylesheet" href="themes/hangman.min.css" />
 	<link rel="stylesheet" href="themes/jquery.mobile.icons.min.css" />
-	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.2/jquery.mobile.structure-1.4.2.min.css" />
-	<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
-	<script src="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js"></script>
+	<link rel="stylesheet" href="themes/jquery.mobile.structure-1.4.2.min.css" />
+	<script src="themes/jquery-1.10.2.min.js"></script>
+	<script src="themes/jquery.mobile-1.4.2.min.js"></script>
+	<script src="themes/wl.js"></script>
+	<style type="text/css">
+ 		#content{
+			background-color: #eb4a33;
+			margin: 0 auto;
+			width:98%;
+			text-align: center;
+			height:99%;
+		}
+		.alphBlock{
+			width:.5em;
+			height:.5em;
+			line-height:.5em;
+			vertical-align: middle;
+			text-align: center;
+		}
+		.blk{
+			height:10px;
+			line-height: 10px;
+			vertical-align: middle;
+			text-align: center;
+			display:inline-block;
+			font-size: 1em !important;
+		}
+		.hideBlk{
+			display:none;
+		}
+		.showBlk{
+			display:inline-block;
+		}
+		#keys{
+			position:absolute;
+			bottom:0;
+		}
+		#home{
+			position:relative;
+		}
+	</style>
+	<script type="text/javascript">
+		
+		var alph = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
+
+		var obj = {};
+
+		$(document).ready(function(){
+
+			buildKeys();
+
+			newGame();
+
+			$(document).on('click','.alphBlock',function(){
+				var a = $(this).attr('id');
+				$(this).removeAttr('id').html("");
+				if(obj.w.indexOf(a)!=-1){
+					$('.'+a).toggleClass("hideBlk showBlk");
+				}
+			});
+
+			$('#refresh').on('click',function(){
+				newGame();
+			});
+		});
+
+		function buildKeys(){
+			var len = alph.length;
+			var s = "";
+			for(var i=0;i<len;i++){
+				s += '<span id="'+alph[i]+'" class="alphBlock ui-btn ui-corner-all ui-btn-corner-all ui-btn-inline">'+alph[i]+'</span>';
+			}
+			$('#keys').html(s);
+		}
+
+		function newGame(){
+			obj = wl[randomNumBetweenRange(0,1500)];
+			obj.w = obj.w.toUpperCase();
+			var str = obj.w;
+			var len = str.length;
+			var s = "";
+			for(var i=0;i<len;i++){
+				s += '<span class="blk ui-btn"><span class="hideBlk '+str[i]+'">'+str[i]+'</span></span>';
+			}
+			$('#emptySpaces').html(s);
+		}
+
+
+		function randomNumBetweenRange(min,max){
+		    return Math.floor(Math.random()*(max-min+1)+min);
+		}
+
+	</script>
 </head>
 <body>
-	<div data-role="page" data-theme="a">
-		<div data-role="header" data-position="inline">
-			<h1>It Worked!</h1>
+	<div data-role="page" data-theme="a" id="home">
+		<div data-role="header" data-position="fixed">
+			<h1>Hangman</h1>
+			<a href="#" id="refresh" data-icon="refresh" class="ui-btn-left" data-iconpos="notext">Refresh</a>
+			<a href="#popupBasic" data-position-to="window" data-rel="popup" id="infoicon" data-icon="info" class="ui-btn-right" data-iconpos="notext">Info</a>
 		</div>
-		<div data-role="content" data-theme="a">
-			<p>Your theme was successfully downloaded. You can use this page as a reference for how to link it up!</p>
-			<pre>
-<strong>&lt;link rel=&quot;stylesheet&quot; href=&quot;themes/hangman.min.css&quot; /&gt;</strong>
-<strong>&lt;link rel=&quot;stylesheet&quot; href=&quot;themes/jquery.mobile.icons.min.css&quot; /&gt;</strong>
-&lt;link rel=&quot;stylesheet&quot; href=&quot;http://code.jquery.com/mobile/1.4.2/jquery.mobile.structure-1.4.2.min.css&quot; /&gt;
-&lt;script src=&quot;http://code.jquery.com/jquery-1.10.2.min.js&quot;&gt;&lt;/script&gt;
-&lt;script src=&quot;http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js&quot;&gt;&lt;/script&gt;
-			</pre>
-			<p>This is content color swatch "A" and a preview of a <a href="#" class="ui-link">link</a>.</p>
-			<label for="slider1">Input slider:</label>
-			<input type="range" name="slider1" id="slider1" value="50" min="0" max="100" data-theme="a" />
-			<fieldset data-role="controlgroup"  data-type="horizontal" data-role="fieldcontain">
-			<legend>Cache settings:</legend>
-			<input type="radio" name="radio-choice-a1" id="radio-choice-a1" value="on" checked="checked" />
-			<label for="radio-choice-a1">On</label>
-			<input type="radio" name="radio-choice-a1" id="radio-choice-b1" value="off"  />
-			<label for="radio-choice-b1">Off</label>
-			</fieldset>
+		<div data-role="content" data-theme="a" id="content">
+			<div id="emptySpaces"></div>
+			<div id="keys"></div>
+		</div>
+		<div data-role="popup" id="popupBasic" data-overlay-theme="b" class="ui-content" >
+	    	<a href="#" data-rel="back" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext" class="ui-btn-right"></a><p>A Hangman Game: pass your time wisely<p>Created By: <a href="http://www.rushis.com">Rushi</a><p>
 		</div>
 	</div>
 </body>
