@@ -26,12 +26,10 @@
 			text-align: center;
 		}
 		.blk{
-			height:10px;
-			line-height: 10px;
 			vertical-align: middle;
 			text-align: center;
 			display:inline-block;
-			font-size: 1em !important;
+			
 		}
 		.hideBlk{
 			display:none;
@@ -46,12 +44,26 @@
 		#home{
 			position:relative;
 		}
+		#emptySpaces{
+			position:relative;
+			margin: 0 auto;
+			left:-5%;
+			width:100%;
+		}
+		#result{
+			position:relative;
+			left:-5%;
+			width:100%;
+			color:white;
+			font-size: 1.2em;
+		}
 	</style>
 	<script type="text/javascript">
 		
 		var alph = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
 
 		var obj = {};
+		var chances = 5;
 
 		$(document).ready(function(){
 
@@ -60,17 +72,41 @@
 			newGame();
 
 			$(document).on('click','.alphBlock',function(){
-				var a = $(this).attr('id');
-				$(this).removeAttr('id').html("");
-				if(obj.w.indexOf(a)!=-1){
-					$('.'+a).toggleClass("hideBlk showBlk");
+				if($(this).attr("id") && chances!=0){
+					handleClick($(this));
 				}
 			});
 
 			$('#refresh').on('click',function(){
+				buildKeys();
 				newGame();
 			});
 		});
+
+		function handleClick(o){
+			var a = $(o).attr('id');
+			$(o).removeAttr('id').html("");
+			if(obj.w.indexOf(a)!=-1){
+				$('.'+a).removeClass("hideBlk").addClass("showBlk");
+			}else{
+				chances--;
+			}
+
+			if($('.hideBlk').length==0){
+				$('#result').html("You <span style='color:green'>WIN</span><br/><b>"+obj.w+"</b>:<i>"+obj.m+"</i>");
+				chances = 0 ;
+			}else{
+				if(chances == 0){
+				$('#result').html("You Lose<br/><b>"+obj.w+"</b>:<i>"+obj.m+"</i>");
+			}else if(chances == 1){
+				$('#result').html("Hint: "+obj.m);
+			}else{
+				$('#result').html('You have '+chances+' chances to get it right');
+			}	
+			}
+
+			
+		}
 
 		function buildKeys(){
 			var len = alph.length;
@@ -84,6 +120,7 @@
 		function newGame(){
 			obj = wl[randomNumBetweenRange(0,1500)];
 			obj.w = obj.w.toUpperCase();
+			chances = 5;
 			var str = obj.w;
 			var len = str.length;
 			var s = "";
@@ -91,6 +128,14 @@
 				s += '<span class="blk ui-btn"><span class="hideBlk '+str[i]+'">'+str[i]+'</span></span>';
 			}
 			$('#emptySpaces').html(s);
+			var deviceWidth = $('body').innerWidth();
+			var eachBlkWidth = deviceWidth / (len * 55) ;
+			//console.log(deviceWidth);
+			//console.log(eachBlkWidth);
+			$('.blk').css('width',eachBlkWidth+"em");
+			$('.blk').css('height',eachBlkWidth+"em");
+			$('.blk').css('line-height',eachBlkWidth+"em");
+			$('#result').html('You have '+chances+' chances to get it right');
 		}
 
 
@@ -109,10 +154,11 @@
 		</div>
 		<div data-role="content" data-theme="a" id="content">
 			<div id="emptySpaces"></div>
+			<div id = "result"></div>
 			<div id="keys"></div>
 		</div>
 		<div data-role="popup" id="popupBasic" data-overlay-theme="b" class="ui-content" >
-	    	<a href="#" data-rel="back" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext" class="ui-btn-right"></a><p>A Hangman Game: pass your time wisely<p>Created By: <a href="http://www.rushis.com">Rushi</a><p>
+	    	<a href="#" data-rel="back" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext" class="ui-btn-right"></a><p>A Hangman Game. You have 5 chances to get the word right.<p style="color:#eb4a33"><em>"One forgets words as one forgets names. One's vocabulary needs constant fertilizing or it will die."</em><p>Created By: <a href="http://www.rushis.com">Rushi</a><p>
 		</div>
 	</div>
 </body>
