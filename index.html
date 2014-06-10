@@ -36,7 +36,13 @@
 			vertical-align: middle;
 			text-align: center;
 			display:inline-block;
-			
+			width:2em;
+			height:2em;
+			border-bottom: 1px solid black;
+			margin: 2px;
+			font-weight: bold;
+			color:black;
+			text-shadow:none;
 		}
 		.hideBlk{
 			display:none;
@@ -61,6 +67,7 @@
 		}
 		#result{
 			position:relative;
+			top:16px;
 			left:-5%;
 			width:100%;
 			color:#eb4a33;
@@ -135,16 +142,16 @@
 			var len = str.length;
 			var s = "";
 			for(var i=0;i<len;i++){
-				s += '<span class="blk ui-btn"><span class="hideBlk '+str[i]+'">'+str[i]+'</span></span>';
+				s += '<span class="blk"><span class="hideBlk '+str[i]+'">'+str[i]+'</span></span>';
 			}
 			$('#emptySpaces').html(s);
 			var deviceWidth = $('body').innerWidth();
 			var eachBlkWidth = deviceWidth / (len * 55) ;
 			//console.log(deviceWidth);
 			//console.log(eachBlkWidth);
-			$('.blk').css('width',eachBlkWidth+"em");
-			$('.blk').css('height',eachBlkWidth+"em");
-			$('.blk').css('line-height',eachBlkWidth+"em");
+			//$('.blk').css('width',eachBlkWidth+"em");
+			//$('.blk').css('height',eachBlkWidth+"em");
+			//$('.blk').css('line-height',eachBlkWidth+"em");
 			$('#result').html('').html('You have '+chances+' chances to get it right');
 		}
 
