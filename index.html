@@ -39,7 +39,7 @@
 			display:inline-block;
 			width:2em;
 			height:2em;
-			border-bottom: 1px solid black;
+			border-bottom: 1px solid red;
 			margin: 2px;
 			font-weight: bold;
 			color:black;
@@ -50,6 +50,9 @@
 		}
 		.showBlk{
 			display:inline-block;
+		}
+		.blkDone{
+			border-bottom: 0px;
 		}
 		#keys{
 			position:absolute;
@@ -105,7 +108,7 @@
 			var a = $(o).attr('id');
 			$(o).removeAttr('id').html("");
 			if(obj.w.indexOf(a)!=-1){
-				$('.'+a).removeClass("hideBlk").addClass("showBlk");
+				$('.'+a).removeClass("hideBlk").addClass("showBlk").parent().addClass('blkDone');
 			}else{
 				chances--;
 			}
@@ -147,7 +150,7 @@
 			}
 			$('#emptySpaces').html(s);
 			var deviceWidth = $('body').innerWidth();
-			var eachBlkWidth = deviceWidth / (len * 48) ;
+			var eachBlkWidth = deviceWidth / (len * 52) ;
 			//console.log(deviceWidth);
 			//console.log(eachBlkWidth);
 			$('.blk').css('width',eachBlkWidth+"em");
