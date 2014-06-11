@@ -31,6 +31,7 @@
 			line-height:.5em;
 			vertical-align: middle;
 			text-align: center;
+			border-radius: 40% !important;
 		}
 		.blk{
 			vertical-align: middle;
@@ -88,13 +89,13 @@
 
 			newGame();
 
-			$(document).on('click','.alphBlock',function(){
+			$(document).on('tap','.alphBlock',function(){
 				if($(this).attr("id") && chances!=0){
 					handleClick($(this));
 				}
 			});
 
-			$('#refresh').on('click',function(){
+			$('#refresh').on('tap',function(){
 				buildKeys();
 				newGame();
 			});
@@ -129,7 +130,7 @@
 			var len = alph.length;
 			var s = "";
 			for(var i=0;i<len;i++){
-				s += '<span id="'+alph[i]+'" class="alphBlock ui-btn ui-corner-all ui-btn-corner-all ui-btn-inline">'+alph[i]+'</span>';
+				s += '<a id="'+alph[i]+'" class="alphBlock ui-btn ui-corner-all ui-btn-corner-all ui-btn-inline">'+alph[i]+'</a>';
 			}
 			$('#keys').html(s);
 		}
