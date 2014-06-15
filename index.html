@@ -13,6 +13,8 @@
 	<style type="text/css">
 		.ui-page {
 	    	-webkit-backface-visibility: hidden;
+	    	background-image: url(themes/images/triangular.png);
+			background-repeat: repeat;
 		}
  		#content{
 			background-color: #eb4a33;
@@ -20,6 +22,8 @@
 			width:98%;
 			text-align: center;
 			height:99%;
+			background-image: url(themes/images/triangular.png);
+			background-repeat: repeat;
 		}
 		.alphBlock{
 			width:.5em;
@@ -27,12 +31,19 @@
 			line-height:.5em;
 			vertical-align: middle;
 			text-align: center;
+			border-radius: 40% !important;
 		}
 		.blk{
 			vertical-align: middle;
 			text-align: center;
 			display:inline-block;
-			
+			width:2em;
+			height:2em;
+			border-bottom: 1px solid red;
+			margin: 2px;
+			font-weight: bold;
+			color:black;
+			text-shadow:none;
 		}
 		.hideBlk{
 			display:none;
@@ -40,12 +51,17 @@
 		.showBlk{
 			display:inline-block;
 		}
+		.blkDone{
+			border-bottom: 0px;
+		}
 		#keys{
 			position:absolute;
 			bottom:0;
 		}
 		#home{
 			position:relative;
+			background-image: url(themes/images/triangular.png);
+			background-repeat: repeat;
 		}
 		#emptySpaces{
 			position:relative;
@@ -55,10 +71,12 @@
 		}
 		#result{
 			position:relative;
+			top:16px;
 			left:-5%;
 			width:100%;
-			color:white;
+			color:#eb4a33;
 			font-size: 1.2em;
+			text-shadow:none;
 		}
 	</style>
 	<script type="text/javascript">
@@ -74,13 +92,13 @@
 
 			newGame();
 
-			$(document).on('click','.alphBlock',function(){
+			$(document).on('tap','.alphBlock',function(){
 				if($(this).attr("id") && chances!=0){
 					handleClick($(this));
 				}
 			});
 
-			$('#refresh').on('click',function(){
+			$('#refresh').on('tap',function(){
 				buildKeys();
 				newGame();
 			});
@@ -90,7 +108,7 @@
 			var a = $(o).attr('id');
 			$(o).removeAttr('id').html("");
 			if(obj.w.indexOf(a)!=-1){
-				$('.'+a).removeClass("hideBlk").addClass("showBlk");
+				$('.'+a).removeClass("hideBlk").addClass("showBlk").parent().addClass('blkDone');
 			}else{
 				chances--;
 			}
@@ -115,7 +133,7 @@
 			var len = alph.length;
 			var s = "";
 			for(var i=0;i<len;i++){
-				s += '<span id="'+alph[i]+'" class="alphBlock ui-btn ui-corner-all ui-btn-corner-all ui-btn-inline">'+alph[i]+'</span>';
+				s += '<a id="'+alph[i]+'" class="alphBlock ui-btn ui-corner-all ui-btn-corner-all ui-btn-inline">'+alph[i]+'</a>';
 			}
 			$('#keys').html(s);
 		}
@@ -128,17 +146,17 @@
 			var len = str.length;
 			var s = "";
 			for(var i=0;i<len;i++){
-				s += '<span class="blk ui-btn"><span class="hideBlk '+str[i]+'">'+str[i]+'</span></span>';
+				s += '<span class="blk"><span class="hideBlk '+str[i]+'">'+str[i]+'</span></span>';
 			}
 			$('#emptySpaces').html(s);
 			var deviceWidth = $('body').innerWidth();
-			var eachBlkWidth = deviceWidth / (len * 55) ;
+			var eachBlkWidth = deviceWidth / (len * 52) ;
 			//console.log(deviceWidth);
 			//console.log(eachBlkWidth);
 			$('.blk').css('width',eachBlkWidth+"em");
-			$('.blk').css('height',eachBlkWidth+"em");
-			$('.blk').css('line-height',eachBlkWidth+"em");
-			$('#result').html('You have '+chances+' chances to get it right');
+			//$('.blk').css('height',eachBlkWidth+"em");
+			//$('.blk').css('line-height',eachBlkWidth+"em");
+			$('#result').html('').html('You have '+chances+' chances to get it right');
 		}
 
 
